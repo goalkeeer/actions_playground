@@ -15,13 +15,6 @@ jobs:
     steps:
       - run: echo "Hello World"
 
-  fail:
-    name: fail step
-    runs-on: ubuntu-latest
-    steps:
-      - name: Failing step
-        run: exit 1
-
   send_telegram:
     name: send status to telegram
     needs: [build, fail]
@@ -39,10 +32,10 @@ jobs:
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
             Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
             Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
-            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
             
             Commit message: ${{ github.event.commits[0].message }}
             Additional message: ${{ inputs.message }} 
             
             Run by: ${{ github.actor }}
+            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
             Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
