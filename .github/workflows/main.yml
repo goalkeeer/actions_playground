@@ -25,6 +25,7 @@ jobs:
           MESSAGE="
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
             Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
+            Project: [${{ github.repository }}](https://github.com/${{ github.repository }})
             Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
           
             Commit message: ${{ github.event.commits[0].message }}
