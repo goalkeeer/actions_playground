@@ -1,5 +1,5 @@
 name: telegram message
-on: [workflow_dispatch]
+on: [workflow_call]
 jobs:
   on-success:
     runs-on: ubuntu-latest
