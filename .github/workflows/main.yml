@@ -19,25 +19,6 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
-#    steps:
-#      - name: send telegram message on push
-#        uses: appleboy/telegram-action@master
-#        with:
-#          to: ${{ secrets.TELEGRAM_TO }}
-#          token: ${{ secrets.TELEGRAM_TOKEN }}
-#          format: html
-#          disable_web_page_preview: true
-#          message: |
-#            Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
-#            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
-#            Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
-#
-#            Commit message: ${{ github.event.commits[0].message }}
-#            Additional message: ${{ inputs.message }}
-#
-#            Run by: ${{ github.actor }}
-#            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
-#            Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
     steps:
       - run: |
           URL = "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
@@ -60,3 +41,22 @@ jobs:
 #            --data "text=$MESSAGE"\
 #            "$URL"
           curl -s -X POST ${URL} -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MESSAGE}"
+#    steps:
+#      - name: send telegram message on push
+#        uses: appleboy/telegram-action@master
+#        with:
+#          to: ${{ secrets.TELEGRAM_TO }}
+#          token: ${{ secrets.TELEGRAM_TOKEN }}
+#          format: html
+#          disable_web_page_preview: true
+#          message: |
+#            Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
+#            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
+#            Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
+#
+#            Commit message: ${{ github.event.commits[0].message }}
+#            Additional message: ${{ inputs.message }}
+#
+#            Run by: ${{ github.actor }}
+#            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
+#            Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
