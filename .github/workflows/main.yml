@@ -27,7 +27,7 @@ jobs:
     name: send status to telegram
     needs: [build, fail]
     runs-on: ubuntu-latest
-    if: ${{ !canceled() }}
+    if: ${{ !cancelled() }}
     steps:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
