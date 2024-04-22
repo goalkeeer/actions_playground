@@ -22,6 +22,7 @@ jobs:
     steps:
       - run: |
           URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+          PARSE_MODE="MarkdownV2"
           MESSAGE="
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
             Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
@@ -39,7 +40,7 @@ jobs:
             --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
             --data "text=$MESSAGE"\
             --data "disable_web_page_preview=1"\
-            --data "parse_mode='MarkdownV2'"
+            --data "parse_mode=$PARSE_MODE"
 #          curl\
 #            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
 #            --data "disable_web_page_preview=1"\
