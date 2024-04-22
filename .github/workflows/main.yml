@@ -6,7 +6,6 @@ on:
       message:
         description: 'Commit message'
         required: false
-        default: 'manually'
 
 jobs:
 
@@ -37,12 +36,12 @@ jobs:
           format: html
           message: |
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
-            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>]
-            Env: ${{ github.ref_name }}
-            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'auto' || 'manually' }}
+            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
+            Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
+            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'dispatch' }}
             
             Commit message: ${{ github.event.commits[0].message }}
             Additional message: ${{ inputs.message }} 
             
             Run by: ${{ github.actor }}
-            Workflow: [link](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
