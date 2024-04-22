@@ -22,7 +22,7 @@ jobs:
     steps:
       - run: |
           URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
-          PARSE_MODE="MarkdownV2"
+          PARSE_MODE="HTML"
           MESSAGE="
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
             Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
