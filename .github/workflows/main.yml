@@ -1,0 +1,18 @@
+name: main workflow
+on: [push]
+jobs:
+
+  build:
+    name: Do before
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello World"
+
+  fail:
+    name: fail step
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
+
+  send:
+    uses: ./.github/workflows/telegram.yml
