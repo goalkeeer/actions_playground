@@ -22,7 +22,6 @@ jobs:
     steps:
       - run: |
           URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
-          PARSE_MODE="HTML"
           MESSAGE="Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
           Project: <a href='https://github.com/${{ github.repository }}'>${{ github.repository }}</a>
           Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
@@ -37,9 +36,9 @@ jobs:
           curl -s -X POST "$URL"\
             --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
             --data "text=$MESSAGE"\
-            --data parse_mode=$PARSE_MODE
+            --data "disable_web_page_preview=1"\
+            --data parse_mode=HTML
 #          Project: [${{ github.repository }}](https://github.com/${{ github.repository }})
-#            --data "disable_web_page_preview=1"\
 #          curl\
 #            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
 #            --data "disable_web_page_preview=1"\
