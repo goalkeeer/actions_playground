@@ -12,7 +12,8 @@ jobs:
     name: fail step
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
+      - name: Failing step
+        run: exit 1
 
   send:
     uses: ./.github/workflows/telegram.yml
