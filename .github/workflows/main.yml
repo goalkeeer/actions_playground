@@ -35,7 +35,7 @@ jobs:
             Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
           "
           curl -s -X POST "$URL"\
-            --data "chat_id=${{ secrets.TELEGRAM_TO }}\
+            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
             --data "text=$MESSAGE"
 #          curl\
 #            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
