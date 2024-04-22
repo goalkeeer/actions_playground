@@ -3,8 +3,16 @@ on: [push]
 jobs:
 
   build:
-    name: Build
+    name: Do before
     runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello World"
+
+  on-success:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
@@ -12,9 +20,30 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
+            Успех
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
-            
+
             Repository: ${{ github.repository }}
-            
+
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+  on-failure:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Провал
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+
+            Repository: ${{ github.repository }}
+
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
