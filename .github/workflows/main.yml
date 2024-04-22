@@ -23,43 +23,26 @@ jobs:
       - name: Failing step
         run: exit 1
 
-  on-success:
+  send_telegram:
+    name: send status to telegram
     needs: [build, fail]
     runs-on: ubuntu-latest
-    if: ${{ success() }}
+    if: ${{ !canceled() }}
     steps:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
           message: |
+            Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
+            Project: [${{ github.repository }}](https://github.com/${{ github.repository }}/)
+            Env: ${{ github.ref_name }}
+            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'auto' || 'manually' }}
             
-            Успех
-            ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
-
-            Repository: ${{ github.repository }}
-
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-
-  on-failure:
-    needs: [build, fail]
-    runs-on: ubuntu-latest
-    if: ${{ always() && contains(needs.*.result, 'failure') }}
-    steps:
-      - name: send telegram message on push
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            Доп сообщение: ${{ inputs.message || 'auto run' }}
-            Action status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
-            Провал
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-
-            Repository: ${{ github.repository }}
-
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            Additional message: ${{ inputs.message }} 
+            
+            Run by: ${{ github.actor }}
+            Workflow: [link](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
