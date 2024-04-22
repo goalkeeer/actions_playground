@@ -54,8 +54,8 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            Доп сообщение: ${{ inputs.message }}
-            Action status: ${{ github.action_status }}
+            Доп сообщение: ${{ inputs.message || 'auto run' }}
+            Action status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
             Провал
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
