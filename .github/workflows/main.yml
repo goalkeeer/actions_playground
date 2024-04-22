@@ -1,5 +1,13 @@
 name: main workflow
-on: [push, workflow_dispatch]
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Commit message'
+        required: false
+        default: 'auto'
+
 jobs:
 
   build:
@@ -26,6 +34,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
+            
             Успех
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
@@ -45,6 +54,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
+            ${{ inputs.message || "blabla" }}
             Провал
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
