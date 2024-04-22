@@ -39,7 +39,7 @@ jobs:
             --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
             --data "text=$MESSAGE"\
             --data "disable_web_page_preview=1"\
-            --data "parse_mode='markdown'"
+            --data "parse_mode='mark'"
 #          curl\
 #            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
 #            --data "disable_web_page_preview=1"\
