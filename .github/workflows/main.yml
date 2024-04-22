@@ -16,4 +16,5 @@ jobs:
         run: exit 1
 
   send:
+    needs: fail
     uses: ./.github/workflows/telegram.yml
