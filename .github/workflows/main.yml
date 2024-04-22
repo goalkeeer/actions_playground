@@ -37,7 +37,7 @@ jobs:
           format: html
           message: |
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
-            Project: [${{ github.repository }}](https://github.com/${{ github.repository }}/)
+            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>]
             Env: ${{ github.ref_name }}
             Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'auto' || 'manually' }}
             
