@@ -34,15 +34,14 @@ jobs:
             Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
             Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
           "
-          curl -s -X POST "$URL" 
-            --data "chat_id=${{ secrets.TELEGRAM_TO }}
-            --data "text=$MESSAGE"
-#          curl
-#            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
-#            --data "disable_web_page_preview=1"\
-#            --data "parse_mode=html"\
-#            --data "text=$MESSAGE"\
-#            "$URL"
+#          curl -s -X POST "$URL"
+#            --data "chat_id=${{ secrets.TELEGRAM_TO }}
+#            --data "text=$MESSAGE"
+          curl
+            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
+            --data "disable_web_page_preview=1"\
+            --data "text=$MESSAGE"\
+            "$URL"
 #    steps:
 #      - name: send telegram message on push
 #        uses: appleboy/telegram-action@master
