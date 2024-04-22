@@ -62,5 +62,4 @@ jobs:
 #            --data "text=$MESSAGE"\
 #            "$URL"
 
-          curl -s -X POST ${URL}
-          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MESSAGE}"
+          curl -s -X POST ${URL} -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MESSAGE}"
