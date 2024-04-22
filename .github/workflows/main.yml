@@ -6,7 +6,7 @@ on:
       message:
         description: 'Commit message'
         required: false
-        default: 'auto'
+        default: 'manually'
 
 jobs:
 
@@ -54,7 +54,8 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ${{ inputs.message || "blabla" }}
+            Доп сообщение: ${{ inputs.message }}
+            Action status: ${{ github.action_status }}
             Провал
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
