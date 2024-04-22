@@ -24,7 +24,7 @@ jobs:
           URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
           MESSAGE="
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
-            Project: [${{ github.repository }}](https://github.com/${{ github.repository }})
+            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
             Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
           
             Commit message: ${{ github.event.commits[0].message }}
