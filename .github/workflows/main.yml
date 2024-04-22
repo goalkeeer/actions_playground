@@ -1,5 +1,5 @@
 name: main workflow
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
 
   build:
@@ -15,5 +15,40 @@ jobs:
       - name: Failing step
         run: exit 1
 
-  send:
-    uses: ./.github/workflows/telegram.yml
+  on-success:
+    needs: [build, fail]
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Успех
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+
+            Repository: ${{ github.repository }}
+
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+  on-failure:
+    needs: [build, fail]
+    runs-on: ubuntu-latest
+    if: ${{ always() && contains(needs.*.result, 'failure') }}
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Провал
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+
+            Repository: ${{ github.repository }}
+
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
