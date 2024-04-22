@@ -34,11 +34,12 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
+          disable_web_page_preview: true
           message: |
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
             Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
             Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
-            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'dispatch' }}
+            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
             
             Commit message: ${{ github.event.commits[0].message }}
             Additional message: ${{ inputs.message }} 
