@@ -21,8 +21,8 @@ jobs:
     if: ${{ !cancelled() }}
     steps:
       - run: |
-          URL = "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
-          MESSAGE = "
+          URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+          MESSAGE="
             Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
             Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
             Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
