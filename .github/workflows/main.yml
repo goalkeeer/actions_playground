@@ -8,8 +8,13 @@ on:
         required: false
 
 jobs:
+  first:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
 
   build:
+    needs: [first]
     name: Do before
     runs-on: ubuntu-latest
     steps:
