@@ -8,7 +8,14 @@ on:
         required: false
 
 jobs:
+  first:
+    name: f
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
+
   build:
+    needs: [first]
     name: Do before
     runs-on: ubuntu-latest
     steps:
@@ -38,29 +45,3 @@ jobs:
             --data "text=$MESSAGE"\
             --data "disable_web_page_preview=1"\
             --data parse_mode=HTML
-#          Project: [${{ github.repository }}](https://github.com/${{ github.repository }})
-#          curl\
-#            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
-#            --data "disable_web_page_preview=1"\
-#            --data "parse_mode=mark"\
-#            --data "text=$MESSAGE"\
-#            "$URL"
-#    steps:
-#      - name: send telegram message on push
-#        uses: appleboy/telegram-action@master
-#        with:
-#          to: ${{ secrets.TELEGRAM_TO }}
-#          token: ${{ secrets.TELEGRAM_TOKEN }}
-#          format: html
-#          disable_web_page_preview: true
-#          message: |
-#            Status: ${{ contains(needs.*.result, 'failure') && '❌' || '✅' }}
-#            Project: <a href="https://github.com/${{ github.repository }}">${{ github.repository }}</a>
-#            Env: ${{ github.ref_name == 'PROD' && 'production' || github.ref_name == 'stage' && 'STAGE' }}
-#
-#            Commit message: ${{ github.event.commits[0].message }}
-#            Additional message: ${{ inputs.message }}
-#
-#            Run by: ${{ github.actor }}
-#            Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
-#            Workflow: <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">link</a>
