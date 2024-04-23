@@ -13,7 +13,7 @@ jobs:
     name: Do before
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
+      - run: exit 0
 
   send_telegram:
     name: send status to telegram
