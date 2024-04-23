@@ -29,7 +29,7 @@ jobs:
     steps:
       - run: |
           URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
-          MESSAGE="Status: ${{  contains(needs.*.result, 'success') && '✅' || '❌' }}
+          MESSAGE="Status: ${{  (!contains(needs.*.result, 'success') || !contains(needs.*.result, 'skipped')) && '✅' || '❌' }}
           Project: <a href='https://github.com/${{ github.repository }}'>${{ github.repository }}</a>
           Env: ${{ github.ref_name == 'main' && 'PRODUCTION' || github.ref_name == 'stage' && 'STAGE' }}
           
