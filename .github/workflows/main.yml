@@ -33,8 +33,8 @@ jobs:
           Env: ${{ github.ref_name == 'main' && 'PRODUCTION' || github.ref_name == 'stage' && 'STAGE' }}
           
           Commit message: ${{ github.event.commits[0].message }}
-          Base ref: ${{ github.event.base_ref }}
-          Head commit: ${{ github.head_commit.message }}
+          Base ref: ${{ github.base_ref }}
+          Head commit: ${{ github.event.head_commit.message }}
           Additional message: ${{ inputs.message }} 
           
           Run by: ${{ github.actor }}
