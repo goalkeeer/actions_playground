@@ -34,6 +34,7 @@ jobs:
           
           Commit message: ${{ github.event.commits[0].message }}
           Base ref: ${{ github.event.base_ref }}
+          Head commit: ${{ github.head_commit.message }}
           Additional message: ${{ inputs.message }} 
           
           Run by: ${{ github.actor }}
