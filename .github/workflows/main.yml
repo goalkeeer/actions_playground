@@ -36,7 +36,6 @@ jobs:
           Base ref: ${{ github.base_ref }}
           Head commit: <pre> ${{ github.event.head_commit.message }} </pre>
           Head commit 2: <code> ${{ github.event.head_commit.message }} </code>
-          Head commit 23: <span> ${{ github.event.head_commit.message }} </span>
           Head commit 4: <blockquote> ${{ github.event.head_commit.message }} </blockquote>
           Additional message: ${{ inputs.message }} 
           
