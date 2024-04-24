@@ -1,0 +1,47 @@
+name: main workflow
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Commit message'
+        required: false
+
+jobs:
+  first:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 1
+
+  build:
+    needs: [first]
+    name: Do before
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+
+  send_telegram:
+    name: send status to telegram
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    steps:
+      - run: |
+          URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+          MESSAGE="Status: ${{  !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'skipped') && '✅' || '❌' }}
+          Project: <a href='https://github.com/${{ github.repository }}'>${{ github.repository }}</a>
+          Env: ${{ github.ref_name == 'main' && 'PRODUCTION' || github.ref_name == 'stage' && 'STAGE' }}
+          
+          Commit message: ${{ github.event.commits[0].message }}
+          Base ref: ${{ github.event.base_ref }}
+          Additional message: ${{ inputs.message }} 
+          
+          Run by: ${{ github.actor }}
+          Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
+          Workflow: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>link</a>"
+          
+          curl -s -X POST "$URL"\
+            --data "chat_id=${{ secrets.TELEGRAM_TO }}"\
+            --data "text=$MESSAGE"\
+            --data "disable_web_page_preview=1"\
+            --data parse_mode=HTML
