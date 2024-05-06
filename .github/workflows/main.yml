@@ -16,6 +16,8 @@ jobs:
       - run: exit 0
 
   reuse:
+    needs:
+      - build
     uses: goalkeeer/actions_2/.github/workflows/reuse.yml@main
     secrets:
       TEST: ${{ secrets.TEST }}
