@@ -17,6 +17,8 @@ jobs:
 
   reuse:
     uses: goalkeeer/actions_2/.github/workflows/reuse.yml@main
+    secrets:
+      TEST: ${{ secrets.TEST }}
 
 #  send_telegram:
 #    name: send status to telegram
