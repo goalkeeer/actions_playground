@@ -16,7 +16,7 @@ jobs:
       - run: exit 0
 
   reuse:
-    uses: goalkeeer/actions_2/.github/workflows/reus.yml@main
+    uses: goalkeeer/actions_2/.github/workflows/reuse.yml@main
 
 #  send_telegram:
 #    name: send status to telegram
