@@ -22,6 +22,30 @@ jobs:
     secrets:
       TEST: ${{ secrets.TEST }}
 
+  tg:
+    needs:
+      - build
+    uses: goalkeeer/actions_2/.github/workflows/tg.yml@main
+    secrets:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+    with:
+      message: |
+        "Status: ${{  !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'skipped') && '✅' || '❌' }}
+        Project: <a href='https://github.com/${{ github.repository }}'>${{ github.repository }}</a>
+        Env: ${{ github.ref_name == 'main' && 'PRODUCTION' || github.ref_name == 'stage' && 'STAGE' }}
+
+        Commit message: ${{ github.event.commits[0].message }}
+        Base ref: ${{ github.base_ref }}
+        Head commit: <pre> ${{ github.event.head_commit.message }} </pre>
+        Head commit 2: <code> ${{ github.event.head_commit.message }} </code>
+        Head commit 4: <blockquote> ${{ github.event.head_commit.message }} </blockquote>
+        Additional message: ${{ inputs.message }}
+
+        Run by: ${{ github.actor }}
+        Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
+        Workflow: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>link</a>"
+        
+
 #  send_telegram:
 #    name: send status to telegram
 #    needs: [build]
