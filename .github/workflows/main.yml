@@ -9,25 +9,21 @@ on:
 
 jobs:
 
-  build:
-    name: Do before
-    runs-on: ubuntu-latest
-    steps:
-      - run: exit 0
-
-  reuse:
-    needs:
-      - build
-    uses: goalkeeer/actions_2/.github/workflows/reuse.yml@main
-    secrets:
-      TEST: ${{ secrets.TEST }}
+#  build:
+#    name: Do before
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: exit 0
+#
+#  reuse:
+#    needs:
+#      - build
+#    uses: goalkeeer/actions_2/.github/workflows/reuse.yml@main
+#    secrets:
+#      TEST: ${{ secrets.TEST }}
 
   tg:
-    needs:
-      - build
     uses: goalkeeer/actions_2/.github/workflows/tg.yml@main
-    secrets:
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
     with:
       message: |
         "Status: ${{  !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'skipped') && '✅' || '❌' }}
@@ -44,7 +40,9 @@ jobs:
         Run by: ${{ github.actor }}
         Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
         Workflow: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>link</a>"
-        
+    secrets:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
 
 #  send_telegram:
 #    name: send status to telegram
