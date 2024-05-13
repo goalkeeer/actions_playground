@@ -43,7 +43,6 @@ jobs:
     secrets:
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
-
 #  send_telegram:
 #    name: send status to telegram
 #    needs: [build]
