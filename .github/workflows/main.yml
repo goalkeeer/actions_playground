@@ -28,7 +28,7 @@ jobs:
       message: |
         "Status: ${{  !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'skipped') && '✅' || '❌' }}
         Project: <a href='https://github.com/${{ github.repository }}'>${{ github.repository }}</a>
-        Env: ${{ github.ref_name == 'main' && 'PRODUCTION' || github.ref_name == 'stage' && 'STAGE' }}
+        Env: ${{ github.ref_name == 'main' && 'PRODUCTION' || github.ref_name == 'master' && 'PRODUCTION' || github.ref_name == 'stage' && 'STAGE' }}
 
         Commit message: ${{ github.event.commits[0].message }}
         Base ref: ${{ github.base_ref }}
