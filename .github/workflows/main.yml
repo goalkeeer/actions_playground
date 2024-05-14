@@ -40,6 +40,7 @@ jobs:
         Run by: ${{ github.actor }}
         Dispatch: ${{ github.event_name == 'workflow_dispatch' && 'manually' || 'auto' }}
         Workflow: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>link</a>"
+      chat_id: ${{ vars.TELEGRAM_TO }}
     secrets:
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
